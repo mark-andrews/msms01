@@ -60,3 +60,20 @@ logLik(M2) * -2
 
 # deviance residuals
 sum(residuals(M2)^2)
+
+
+
+# Nested linear models ----------------------------------------------------
+
+M1 <- lm(Fertility ~ Agriculture + Education + Catholic, data = swiss)
+M0 <- lm(Fertility ~ Agriculture + Education, data = swiss)
+
+RSS_1 <- sum(residuals(M1)^2)
+RSS_0 <- sum(residuals(M0)^2)
+
+RSS_0
+RSS_1
+
+RSS_0/RSS_1
+
+(RSS_0 - RSS_1) / RSS_1
