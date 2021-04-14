@@ -134,7 +134,20 @@ M0 <- glm(y ~ Agriculture + Education,
           data = swiss_df,
           family = binomial())
 
+M_null <- glm(y ~ 1,
+              data = swiss_df,
+              family = binomial())
 
 D_0 <- deviance(M0)
 D_1 <- deviance(M1)
 c(D_0, D_1)
+
+(D_0 - D_1)/D_1 # pie 
+(D_0 - D_1)/D_0 # equivalent R^2
+
+D_0 - D_1 # equivalent to -2 log (L_0 / L_1) 
+          # equivalent to 2 log (L_1 / L_0)
+
+pchisq(D_0 - D_1, df = 1, lower.tail = F)
+
+anova(M0, M1, test = 'Chisq')
