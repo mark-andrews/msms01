@@ -3,8 +3,8 @@ These are password protected, and you will have been given this password in the 
 
 # Day 1
 
-* Session 1: 12pm to 2pm
-* Session 2: 2pm to 5pm
+* [Session 1: 12pm to 2pm](https://vimeo.com/536798595)
+* [Session 2: 2pm to 5pm](https://vimeo.com/536878132)
 * Session 3: 6pm to 8pm
 
 # Day 2
