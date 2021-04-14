@@ -220,3 +220,25 @@ rsq_sample <- function(N = 101, predictors, rsq = 'r.squared'){
     summary() %>% 
     extract2(rsq)
 }
+
+logprediction_housing_m1 <- function(i){
+  m1_not_i <- lm(log(price) ~ 1, 
+                 data = slice(housing_df, -i)
+  )
+  mu <- coef(m1_not_i)
+  stdev <- sigma(m1_not_i)
+  y_i <- slice(housing_df, i) %>% pull(price)
+  dnorm(log(y_i), mean = mu, sd = stdev, log = T)
+  
+}
+
+logprediction_housing_m0 <- function(i){
+  m0_not_i <- lm(price ~ 1, 
+                 data = slice(housing_df, -i)
+  )
+  mu <- coef(m0_not_i)
+  stdev <- sigma(m0_not_i)
+  y_i <- slice(housing_df, i) %>% pull(price)
+  dnorm(y_i, mean = mu, sd = stdev, log = T)
+  
+}
