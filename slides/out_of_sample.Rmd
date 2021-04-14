@@ -161,4 +161,23 @@ aic_c <- function(model){
 }
 ```
 
+# AIC
+
+```{r, echo=T}
+library(splines)
+gssvocab_df <- read_csv(here('data/GSSvocab.csv'))
+
+df_seq <- seq(3, 30) %>% set_names(.,.)
+
+M_gssvocab <- map(df_seq,
+                  ~lm(vocab ~ ns(age, df = .),
+                     data = gssvocab_df)
+)
+
+aic_results <- map_dbl(M_gssvocab, aic_c) %>% 
+  enframe(name = 'df', value = 'aic') %>% 
+  mutate(df = as.numeric(df))
+```
+
+
 # References
