@@ -115,3 +115,26 @@ source("https://raw.githubusercontent.com/mark-andrews/msms01/master/utils/utils
 
 rsq_sample(N = 101, x_1:x_5)
 quantile(map_dbl(seq(100), ~rsq_sample(N = 101, x_1:x_5)))
+quantile(map_dbl(seq(100), ~rsq_sample(N = 50, x_1:x_10)))
+quantile(map_dbl(seq(100), ~rsq_sample(N = 50, x_1:x_10, rsq = 'adj.r.squared')))
+
+n <- nrow(swiss)
+K <- length(coef(M0)) - 1
+1 - (RSS_0/RSS_null) * ((n-1)/(n-K-1))
+
+# Generalized linear models and deviance ----------------------------------
+
+swiss_df <- mutate(swiss, y = Fertility > median(Fertility))
+
+M1 <- glm(y ~ Agriculture + Education + Catholic,
+          data = swiss_df,
+          family = binomial())
+
+M0 <- glm(y ~ Agriculture + Education,
+          data = swiss_df,
+          family = binomial())
+
+
+D_0 <- deviance(M0)
+D_1 <- deviance(M1)
+c(D_0, D_1)
