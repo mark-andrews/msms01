@@ -110,3 +110,8 @@ c(RSS_null, RSS_0, RSS_null - RSS_0)
 
 (RSS_null - RSS_0)/RSS_null
 summary(M0)$r.squared
+
+source("https://raw.githubusercontent.com/mark-andrews/msms01/master/utils/utils.R")
+
+rsq_sample(N = 101, x_1:x_5)
+quantile(map_dbl(seq(100), ~rsq_sample(N = 101, x_1:x_5)))
