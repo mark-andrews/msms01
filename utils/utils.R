@@ -277,3 +277,5 @@ lm_loo_cv <- function(m){
 }
 
 get_rsq <- function(m) summary(m)$r.sq
+get_rss <- function(m) sum(residuals(m)^2)
+get_adjrsq <- function(m) summary(m)$adj.r.sq
