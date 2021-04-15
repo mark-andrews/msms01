@@ -201,11 +201,11 @@ $$
 * It penalizes large coefficients and shrinks the towards zero.
 * In linear regression, it estimates the coefficients by minimizing the penalized sum of squared residuals:
 $$
-\sum_{i=1}^n (y_i - \hat{y}_i)^2 + \lambda \sum_{k=0}^K w_k^2,
+\sum_{i=1}^n (y_i - \hat{y}_i)^2 + \lambda \sum_{k=0}^K \beta_k^2,
 $$
 where
 $$
-\hat{y}_i = \beta_0 + \sum_{k=1}^K w_k x_{ki},
+\hat{y}_i = \beta_0 + \sum_{k=1}^K \beta_k x_{ki},
 $$
 and $\lambda$ is a regularization parameter.
 
@@ -213,7 +213,7 @@ and $\lambda$ is a regularization parameter.
 
 * Least absolute shrinkage and selection operator (lasso) is a method similar to ridge regression, but uses a penalty based on the sum of the *absolute* values of coefficients:
 $$
-\sum_{i=1}^n (y_i - \hat{y}_i)^2 + \lambda \sum_{k=0}^K |w_k|.
+\sum_{i=1}^n (y_i - \hat{y}_i)^2 + \lambda \sum_{k=0}^K |\beta_k|.
 $$
 
 
@@ -222,7 +222,7 @@ $$
 * Elastic net is a method similar to ridge regression and lasso.
 * It uses as weighted average of the two penalty methods:
 $$
-\sum_{i=1}^n (y_i - \hat{y}_i)^2 + \lambda \left( \alpha \sum_{k=0}^K |w_k| + (1-\alpha)\sum_{k=0}^K w^2_k \right).
+\sum_{i=1}^n (y_i - \hat{y}_i)^2 + \lambda \left( \alpha \sum_{k=0}^K |\beta_k| + (1-\alpha)\sum_{k=0}^K \beta^2_k \right).
 $$
 * The values of $\alpha$ ranges from $0$ to $1$.
 * When $\alpha = 0$, this is pure lasso regression.
