@@ -272,7 +272,7 @@ lm_loo_cv <- function(m){
       unlist()
   }
   
-  map_dbl(seq(n), lm_drop_i) %>% sum()
+  map_dbl(seq(n), lm_drop_i) %>% sum() # elpd 
   
 }
 
