@@ -41,7 +41,6 @@ make_data_set <- function(N = 100, K = 10, p = 1, test_proportion = 0.25, lambda
   split(X, split_vector)
 }
 
-
 all_subsets_lm <- function(X, outcome, predictors){
   get_variable_inclusion_matrix <- function(X, outcome, predictors){
     
@@ -75,7 +74,7 @@ all_subsets_lm <- function(X, outcome, predictors){
       c('1', .) %>% 
       paste(collapse = ' + ')
     
-    paste(c('y', rhs), collapse = ' ~ ') 
+    paste(c(rlang::as_name(enquo(outcome)), rhs), collapse = ' ~ ') 
   }
   
   lm_model <- function(f){
@@ -242,3 +241,39 @@ logprediction_housing_m0 <- function(i){
   dnorm(y_i, mean = mu, sd = stdev, log = T)
   
 }
+
+
+lm_loo <- function(m){
+  
+  data_df <- m$model
+  n <- nrow(data_df)
+  formula <- formula(m)
+  
+  lm_drop_i <- function(i){
+    m_not_i <- lm(formula, data = slice(data_df, -i))
+  }
+  
+  map(seq(n), lm_drop_i)
+  
+}
+
+lm_loo_cv <- function(m){
+  
+  data_df <- m$model
+  n <- nrow(data_df)
+  lm_formula <- formula(m)
+  outcome_var <- all.vars(lm_formula)[1]
+  
+  lm_drop_i <- function(i){
+    m_not_i <- lm(lm_formula, data = slice(data_df, -i))
+    slice(data_df, i) %>% 
+      add_predictions(m_not_i) %>% 
+      transmute(lpd = dnorm(x = .[[outcome_var]], mean = pred, sd = sigma(m_not_i), log = TRUE)) %>% 
+      unlist()
+  }
+  
+  map_dbl(seq(n), lm_drop_i) %>% sum()
+  
+}
+
+get_rsq <- function(m) summary(m)$r.sq

@@ -179,5 +179,54 @@ aic_results <- map_dbl(M_gssvocab, aic_c) %>%
   mutate(df = as.numeric(df))
 ```
 
+# Akaike weights
+
+* We can use *Akaike weights* for model averaging.
+* First, we define Akaike *deltas*. For example, for model $k$ of $K$, we have
+$$
+\Delta_k = \text{AIC}_k - \text{AIC}_{\textrm{min}},
+$$
+where $\text{AIC}_{\textrm{min}}$ is the model with the minimum AIC value.
+* Then, the Akaike weights are defined as 
+$$
+w_k = \frac{\exp\left(-\tfrac{1}{2}\Delta_k\right)}{
+\sum_{k=1}^K\exp\left(-\tfrac{1}{2}\Delta_k\right).
+}
+$$
+* Each $w_k$ can interpreted as the probability that model $k$ has the best out of sample generalization.
+
+# Ridge regression
+
+* Ridge regression is a method to reduce variance in estimators of regression coefficients.
+* It penalizes large coefficients and shrinks the towards zero.
+* In linear regression, it estimates the coefficients by minimizing the penalized sum of squared residuals:
+$$
+\sum_{i=1}^n (y_i - \hat{y}_i)^2 + \lambda \sum_{k=0}^K w_k^2,
+$$
+where
+$$
+\hat{y}_i = \beta_0 + \sum_{k=1}^K w_k x_{ki},
+$$
+and $\lambda$ is a regularization parameter.
+
+# Lasso
+
+* Least absolute shrinkage and selection operator (lasso) is a method similar to ridge regression, but uses a penalty based on the sum of the *absolute* values of coefficients:
+$$
+\sum_{i=1}^n (y_i - \hat{y}_i)^2 + \lambda \sum_{k=0}^K |w_k|.
+$$
+
+
+# Elastic net
+
+* Elastic net is a method similar to ridge regression and lasso.
+* It uses as weighted average of the two penalty methods:
+$$
+\sum_{i=1}^n (y_i - \hat{y}_i)^2 + \lambda \left( \alpha \sum_{k=0}^K |w_k| + (1-\alpha)\sum_{k=0}^K w^2_k \right).
+$$
+* The values of $\alpha$ ranges from $0$ to $1$.
+* When $\alpha = 0$, this is pure lasso regression.
+* When $\alpha = 1$, this is pure ridge regression.
+
 
 # References
