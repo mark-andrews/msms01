@@ -124,8 +124,15 @@ library(brms)
 M5a_bayes <- brm(mathscore ~ ses + (ses|schoolid) + (ses|classid),
                  cores = 4,
                  data = classroom_df)
-M5a_bayes_lm <- brm(mathscore ~ 1, data = classroom_df)
+M5a_bayes_b <- brm(mathscore ~ ses + (ses|schoolid),
+                   cores = 4,
+                   data = classroom_df)
+M5a_bayes_lm <- brm(mathscore ~ ses, data = classroom_df, cores = 4)
+
+brms::loo_compare(brms::loo(M5a_bayes_lm), brms::loo(M5a_bayes), brms::loo(M5a_bayes_b))
 
 M5a_bayes
 waic(M5a_bayes)
 brms::loo(M5a_bayes)
+brms::loo(M5a_bayes_lm)
+brms::loo_compare(M5a_bayes_lm, M5a_bayes)
